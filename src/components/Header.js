@@ -1,11 +1,13 @@
 import React from 'react'
 import { useColorScheme } from 'react-native';
-import { Appbar } from 'react-native-paper';
+import { Appbar, Badge  } from 'react-native-paper';
 import { theme } from '../utils/contants';
+import { connect } from 'react-redux';
 
-const Header = ({ isBack, title, navigation }) => {
+
+const Header = ({ isBack, title, navigation, cart }) => {
     let colorScheme = useColorScheme();
-
+    console.log(cart.length)
     return (
         <Appbar.Header type="small" 
             style={{ 
@@ -23,5 +25,5 @@ const Header = ({ isBack, title, navigation }) => {
         </Appbar.Header>
     )
 }
-
-export default Header
+const mapStateToProps = state => state ;
+export default connect(mapStateToProps, {})(Header)

@@ -1,13 +1,18 @@
 import React from 'react'
 import { View, FlatList, StyleSheet, Text} from 'react-native';
 import { Button} from 'react-native-paper';
-
 import { connect } from 'react-redux';
 import CardProduct from '../../components/CardProduct';
 
 const Cart = ({ cart, navigation }) => {
 
-  console.log(cart)
+  const comprar = () => {
+    console.log(cart)
+    cart.forEach( i => {
+      console.log(i)
+    })
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -28,6 +33,7 @@ const Cart = ({ cart, navigation }) => {
         buttonColor="#6200ee"
         mode="contained"
         style={styles.btn}
+        onPress={comprar}
       >Comprar</Button> }
     
     </View>

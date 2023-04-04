@@ -5,6 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 const CardProduct = ( {name, image, unit_price, id, action, stock, addToCart} ) => {
 
+    console.log(stock)
     return (
         <View style={styles.card}>
             <TouchableHighlight onPress={ () => action.navigate(

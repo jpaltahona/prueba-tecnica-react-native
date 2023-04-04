@@ -42,6 +42,7 @@ const SingleProduct = ({ navigation, route, cart, cartAction }) => {
     }
     let find = currentCart.find(i => i.id === route.params.productId);
     if(find){
+      console.log(find)
       find.stock = find.stock + 1;
       let filterObj = currentCart.filter(i => i.id != route.params.productId );
       filterObj.push(find);
@@ -50,7 +51,7 @@ const SingleProduct = ({ navigation, route, cart, cartAction }) => {
       
     }else{
 
-      currentCart.push(objProduct);
+      currentCart.push({ ...objProduct, stock: 1 });
       cartAction(currentCart);
       setVisible(!visible)
     }
