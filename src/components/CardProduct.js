@@ -50,11 +50,12 @@ const styles = StyleSheet.create({
         margin: 7,
         borderRadius: 6,
         height: 230,
-        shadowColor: '#171717',
 
+        shadowColor: '#171717',
         shadowOffset: {width: 0, height: 1},
         shadowOpacity: 0.2,
         shadowRadius: 3,
+        
         flexDirection: 'column',
         justifyContent: 'space-between'
     },

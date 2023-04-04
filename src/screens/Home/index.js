@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList, StyleSheet, useColorScheme  } from 'react-native';
-import { Appbar, Snackbar, ActivityIndicator, Text } from 'react-native-paper';
+import { Snackbar, ActivityIndicator } from 'react-native-paper';
 import { getAllProducts } from '../../api/products';
-import CardProduct from '../../components/CardProduct';
 import { connect } from 'react-redux';
 import { cartAction } from '../../redux/actions/cart.action';
 import { collection, getDocs, getFirestore } from "firebase/firestore"; 
 import { theme } from '../../utils/contants';
+
+//Components
+
+import CardProduct from '../../components/CardProduct';
+import Header from '../../components/Header';
 
 const Home = (props) => {
   let colorScheme = useColorScheme();
@@ -57,11 +61,7 @@ const Home = (props) => {
 
   return (
     <View style={{ backgroundColor: colorScheme === 'light' ? theme.container_light.backgroundColor  :  theme.container_dark.backgroundColor }}>
-       <Appbar.Header type="small">
-          <Appbar.Content title="Home" />
-          <Appbar.Action icon="cart" onPress={() => props.navigation.navigate({ name: 'Cart' })} />
-       </Appbar.Header>
-            
+       <Header navigation={props.navigation} title="Home" />
         { loading === true ?
         <View style={styles.container}>
           <ActivityIndicator animating={true} color='#808080' />

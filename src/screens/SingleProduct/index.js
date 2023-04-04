@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, Image, ScrollView, useColorScheme } from 'react-native'
 import { getSingleProduct } from '../../api/products';
-import { Appbar, Button, Snackbar } from 'react-native-paper';
+import { Button, Snackbar } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { cartAction } from '../../redux/actions/cart.action';
 import { doc, getDoc, getFirestore} from "firebase/firestore"; 
-
+import Header from '../../components/Header';
+import { theme } from '../../utils/contants';
 
 const SingleProduct = ({ navigation, route, cart, cartAction }) => {
+  let colorScheme = useColorScheme();
+
   const [productInfo, setProductInfo] = useState(null)
   const [visible, setVisible] = useState(false);
 
@@ -58,23 +61,26 @@ const SingleProduct = ({ navigation, route, cart, cartAction }) => {
     getProductData()
   }, [route.params.productId] )
 
-  console.log(productInfo);
   return (
-    <ScrollView>
-      <Appbar.Header type="small">
-        <Appbar.BackAction onPress={ () => navigation.goBack() } />
-          <Appbar.Content title="Producto" />
-          <Appbar.Action icon="cart" onPress={() => navigation.navigate({ name: 'Cart' })} />
-       </Appbar.Header>
+    <ScrollView style={{ backgroundColor: colorScheme === 'light' ? theme.container_light.backgroundColor  :  theme.container_dark.backgroundColor }}>
+      <Header title={'Producto'} isBack={true} navigation={navigation}/>
       { productInfo && <View>
         <Image 
           style={styles.image}
           source={{ uri: productInfo.image }}
         />
-        <View style={styles.containerInfo}>
-          <Text style={styles.title}>{productInfo.name}</Text>
-          <Text style={styles.price}>${productInfo.unit_price}</Text>
-          <Text style={styles.stock}> stock: {productInfo.stock}</Text>
+        <View style={[styles.containerInfo, { backgroundColor: colorScheme === 'light' ? theme.container_light.backgroundColor  :  theme.container_dark.backgroundColor  }]}>
+          <Text style={[styles.title, 
+            { color: colorScheme === 'light' ? theme.container_light.textColor  :  theme.container_dark.textColor  } ]}
+          >
+              {productInfo.name}
+            </Text>
+          <Text style={[ styles.price, { color: colorScheme === 'light' ? theme.container_light.textColor  :  theme.container_dark.textColor } ]}>
+            ${productInfo.unit_price}
+          </Text>
+          <Text style={[ styles.stock, { color: colorScheme === 'light' ? theme.container_light.textColor  :  theme.container_dark.textColor } ]}>
+            Stock: {productInfo.stock}
+          </Text>
           { productInfo.stock >= 1 ? 
             <Button icon="cart" 
             buttonColor="#6200ee"
@@ -102,17 +108,17 @@ const SingleProduct = ({ navigation, route, cart, cartAction }) => {
       }
    
    <Snackbar
-          visible={visible}
-          onDismiss={() => setVisible(!visible)}
-          action={{
-            label: 'ir al carrito',
-            onPress: () =>  {
-              setVisible(!visible)
-              navigation.navigate({ name: 'Cart' })
-            } ,
-          }}>
-          Product add to cart
-        </Snackbar>
+      visible={visible}
+      onDismiss={() => setVisible(!visible)}
+      action={{
+        label: 'ir al carrito',
+        onPress: () =>  {
+          setVisible(!visible)
+          navigation.navigate({ name: 'Cart' })
+        } ,
+      }}>
+      Product add to cart
+    </Snackbar>
     </ScrollView>
   )
 }
