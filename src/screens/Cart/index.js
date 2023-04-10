@@ -1,17 +1,25 @@
 import React from 'react'
 import { View, FlatList, StyleSheet, Text} from 'react-native';
-import { Button} from 'react-native-paper';
+import { Button, Modal, Portal, Provider} from 'react-native-paper';
 import { connect } from 'react-redux';
 import CardProduct from '../../components/CardProduct';
+import { cartAction } from '../../redux/actions/cart.action';
 
-const Cart = ({ cart, navigation }) => {
+const Cart = ({ cart, navigation, cartAction }) => {
+  const [visible, setVisible] = React.useState(false);
 
   const comprar = () => {
     console.log(cart)
     cart.forEach( i => {
       console.log(i)
     })
+    setVisible(true);
+    cartAction([])
   }
+
+
+  const hideModal = () => setVisible(false);
+
 
   return (
     <View style={styles.container}>
@@ -36,6 +44,13 @@ const Cart = ({ cart, navigation }) => {
         onPress={comprar}
       >Comprar</Button> }
     
+        <Modal visible={visible} onDismiss={hideModal} style={{ alignItems: 'center' }}>
+          <View style={{ height: 200, backgroundColor: '#fff', width: 300, borderRadius: 8, justifyContent: 'center' }}>
+            <Text style={{ fontSize: 16, textAlign: 'center' }}>Productos comprados</Text>
+          </View>
+        </Modal>
+
+    
     </View>
   )
 }
@@ -58,4 +73,4 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => state;
 
-export default connect(mapStateToProps, {})(Cart);
+export default connect(mapStateToProps, { cartAction })(Cart);

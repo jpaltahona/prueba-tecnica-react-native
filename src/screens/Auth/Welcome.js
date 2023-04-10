@@ -9,7 +9,6 @@ const Welcome = ({navigation}) => {
 
             <View style={styles.buttons}>
                 <Button title="Login" buttonStyle={styles.button} onPress={() => navigation.navigate('Login')} />
-                <Button title="Register" type="outline" buttonStyle={styles.button} onPress={() => navigation.navigate('Register')} />
             </View>
         </View>
     )

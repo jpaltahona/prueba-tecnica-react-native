@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const auth = getAuth()
 
@@ -23,7 +23,10 @@ const Login = () => {
         }
         
         try {
-            await signInWithEmailAndPassword(auth, value.email, value.password);
+            const result = await signInWithEmailAndPassword(auth, value.email, value.password);
+            const user = result.user;
+            await AsyncStorage.setItem('user', JSON.stringify(user));
+
           } catch (error) {
             setValue({
               ...value,
